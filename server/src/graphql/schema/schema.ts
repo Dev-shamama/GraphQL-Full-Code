@@ -17,9 +17,33 @@ type Banner {
   id: ID
 }
 
+type User {
+  success: Int
+  message: String
+  name: String
+  email: String
+  password: String
+  id: ID
+  createAt: String
+  resetPasswordToken: String
+  resetPasswordExpire: String
+  token: String
+}
+
+type UserDetail {
+  name: String
+  email: String
+  password: String
+  _id: ID
+  createAt: String
+  resetPasswordToken: String
+  resetPasswordExpire: String
+}
+
 type Query {
-  banner: [Banner!]!
+  banner: [Banner]
   bannerSingle(id: ID!): Banner
+  userDetail: UserDetail
 }
 
 type Mutation {
@@ -28,5 +52,8 @@ type Mutation {
   createBanner(imageLink: Upload!, status: String): Banner
   deleteBanner(id: ID!): Banner
   updateBanner(id: ID!, imageLink: String!, status: String): Banner
+  # Create User Query
+  createUser(name: String!, email: String!, password: String!): User
+  loginUser(email: String!, password: String!): User
 }
 `;

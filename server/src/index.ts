@@ -1,14 +1,14 @@
-import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
 import express from 'express';
 import mongoDBConnect from './db/db.js';
 import connectGraphQl from './graphql/graphql.js';
 import { expressMiddleware } from "@apollo/server/express4";
+import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.mjs';
 import cors from "cors";
 import path from "path"
 import { fileURLToPath } from 'url';
-const port = Number(5000);
+import config from './config/config.js';
+const port = config.PORT || 5000;
 const app = express()
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -29,7 +29,11 @@ app.use(graphqlUploadExpress())
 const graphQLServer = connectGraphQl();
 await graphQLServer.start()
 
-app.use("/api/v1/graphql", expressMiddleware(graphQLServer))
+app.use("/api/v1/graphql", expressMiddleware(graphQLServer, {
+    context: async ({ req }) => ({
+        token: req.headers.token
+    }),
+}))
 
 app.get("/api/v1/test", (req, res) => {
     res.json({ status: true, message: "welcome" })

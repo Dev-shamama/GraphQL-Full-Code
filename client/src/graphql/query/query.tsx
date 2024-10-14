@@ -18,4 +18,9 @@ mutation Mutation($imageLink: String!, $status: String) {
   }`
 
 
-
+export const UPLOAD_BANNER = `#graphql
+mutation singleUpload($file: Upload!) {
+  singleUpload(file: $file) {
+    url
+  }
+}`

@@ -1,7 +1,8 @@
 import { ApolloServer } from '@apollo/server';
 import { resolvers } from "./resolvers/resolvers.js";
 import { schema } from "./schema/schema.js";
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+// Middleware to extract user from token
+
 const connectGraphQl = () => {
     const server = new ApolloServer({
         typeDefs: schema,

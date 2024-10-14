@@ -1,7 +1,8 @@
 import { connect } from "mongoose";
+import config from "../config/config.js";
 
 const mongoDBConnect = () => {
-  connect('mongodb+srv://devshamama:ZPtCZBju0eXmhSD5@cluster0.byghp5c.mongodb.net/gamming').then((data) => {
+  connect(config.DB_URL).then((data) => {
     console.log(`CONNECTION SUCCESSFULLY ${data.connection.host}`);
   });
 };
