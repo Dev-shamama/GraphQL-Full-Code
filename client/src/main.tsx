@@ -22,8 +22,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      // authorization: token ? `Bearer ${token}` : "",
-      "Apollo-Require-Preflight": "true",
+      // "token": token,
+      "Apollo-Require-Preflight": "true", // Necessary for Image Upload
     }
   };
 });

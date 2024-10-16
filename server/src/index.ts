@@ -31,7 +31,8 @@ await graphQLServer.start()
 
 app.use("/api/v1/graphql", expressMiddleware(graphQLServer, {
     context: async ({ req }) => ({
-        token: req.headers.token
+        token: req.headers.token,
+        // Add More Context Headers
     }),
 }))
 

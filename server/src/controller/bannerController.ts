@@ -41,17 +41,18 @@ export const updateBanner = async (_: any, { id, imageLink, status }: { id: Stri
 
 
 // Image Uploads
-export const singleUpload = async (_: any, { file }) => {
-    const { createReadStream, filename, mimetype, encoding } = await file;
-    console.log(file)
-    const stream = createReadStream();
-    const pathName = path.resolve(__dirname, '../uploads', filename)
-    const out = fs.createWriteStream(pathName);
+export const singleUpload = async (_: any, { file }, context: any) => {
+    console.log(context);
+    // const { createReadStream, filename, mimetype, encoding } = await file;
+    // console.log(file)
+    // const stream = createReadStream();
+    // const pathName = path.resolve(__dirname, '../uploads', filename)
+    // const out = fs.createWriteStream(pathName);
 
-    // Pipe the file stream to the filesystem
-    stream.pipe(out);
-    await finished(out);
+    // // Pipe the file stream to the filesystem
+    // stream.pipe(out);
+    // await finished(out);
 
     // Return the file URL (adjust as needed)
-    return { url: pathName };
+    return { url: "pathName" };
 };
