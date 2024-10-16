@@ -1,8 +1,10 @@
 import Banner from "../model/bannerModel.js"
 import path from "path"
+import fs from "fs"
 import { fileURLToPath } from 'url';
-import { getAuthCheck } from "../function/user.js";
+import { getAuthCheck } from "../functions/user.js";
 import config from "../config/config.js";
+import { finished } from "stream/promises";
 const key = config.JWT_SECRET_KEY;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,14 +44,14 @@ export const updateBanner = async (_: any, { id, imageLink, status }: { id: Stri
 export const singleUpload = async (_: any, { file }) => {
     const { createReadStream, filename, mimetype, encoding } = await file;
     console.log(file)
-    // const stream = createReadStream();
-    // const pathName = path.resolve(__dirname, '../uploads', filename)
-    // const out = fs.createWriteStream(pathName);
+    const stream = createReadStream();
+    const pathName = path.resolve(__dirname, '../uploads', filename)
+    const out = fs.createWriteStream(pathName);
 
-    // // Pipe the file stream to the filesystem
-    // stream.pipe(out);
-    // await finished(out);
+    // Pipe the file stream to the filesystem
+    stream.pipe(out);
+    await finished(out);
 
     // Return the file URL (adjust as needed)
-    return { url: "pathName" };
+    return { url: pathName };
 };

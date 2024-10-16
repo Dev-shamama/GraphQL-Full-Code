@@ -1,5 +1,7 @@
 export const schema = `#graphql
 
+scalar DateTime
+
 scalar Upload
 
 type File {
@@ -13,7 +15,7 @@ type Id {
 type Banner {
   imageLink: String
   status: String
-  createAt: String!
+  createAt: DateTime!
   id: ID
 }
 
@@ -44,6 +46,33 @@ type Query {
   banner: [Banner]
   bannerSingle(id: ID!): Banner
   userDetail: UserDetail
+  # forgetPassword: {success: Int, message: String}
+}
+
+type RegisterSchema {
+  success: Boolean,
+  message: String
+  token: String
+}
+
+type LoginSchema {
+  success: Boolean,
+  message: String
+  token: String
+}
+
+type ForgetPasswordSchema {
+  success: Boolean,
+  message: String
+}
+type ResetPasswordSchema {
+  success: Boolean,
+  message: String
+}
+
+type UpdateUserPasswordSchema {
+  success: Boolean,
+  message: String
 }
 
 type Mutation {
@@ -53,7 +82,10 @@ type Mutation {
   deleteBanner(id: ID!): Banner
   updateBanner(id: ID!, imageLink: String!, status: String): Banner
   # Create User Query
-  createUser(name: String!, email: String!, password: String!): User
-  loginUser(email: String!, password: String!): User
+  createUser(name: String!, email: String!, password: String!): RegisterSchema
+  loginUser(email: String!, password: String!): LoginSchema
+  forgetPassword(email: String!): ForgetPasswordSchema
+  resetPassword(token: String!, password: String!, confirmPassword: String!): ResetPasswordSchema
+  updatePassword(oldPassword: String!, newPassword: String!, confirmPassword: String!): UpdateUserPasswordSchema
 }
 `;

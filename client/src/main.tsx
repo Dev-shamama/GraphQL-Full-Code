@@ -1,23 +1,42 @@
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import { ApolloClient, InMemoryCache, ApolloProvider  } from '@apollo/client';
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
+import { createRoot } from 'react-dom/client';
+import App from './App.tsx';
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  ApolloLink,
+} from "@apollo/client";
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
+import { setContext } from "@apollo/client/link/context";
 
-const apolloCache = new InMemoryCache()
-
+// Create the upload link
 const uploadLink = createUploadLink({
-  uri: 'http://localhost:5000/api/v1/graphql', // Apollo Server is served from port 4000
-})
+  uri: "http://localhost:8000/api/v1/graphql",
+});
 
+// Create a middleware link to set headers
+const authLink = setContext((_, { headers }) => {
+  // You can fetch a token from localStorage or any other method
+  // const token = localStorage.getItem("auth-token");
+
+  return {
+    headers: {
+      ...headers,
+      // authorization: token ? `Bearer ${token}` : "",
+      "Apollo-Require-Preflight": "true",
+    }
+  };
+});
+
+// Combine the links
 const client = new ApolloClient({
-  cache: apolloCache,
-  link: uploadLink
-})
+  link: ApolloLink.from([authLink, uploadLink]),
+  cache: new InMemoryCache(),
+});
 
-
-createRoot(document.getElementById('root')!).render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>
-  ,
-)
+);

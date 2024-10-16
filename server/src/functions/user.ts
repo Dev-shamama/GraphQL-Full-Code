@@ -7,6 +7,7 @@ const key = config.JWT_SECRET_KEY;
 interface JwtPayload {
     id: string
 }
+// User Auth ==> Checking  
 export const getAuthCheck = async (request: { token: any; }, requireAuth = false) => {
     const token = request.token;
     if (!token) {
@@ -25,4 +26,8 @@ export const getAuthCheck = async (request: { token: any; }, requireAuth = false
     } catch (error) {
         return null
     }
+}
+
+export const jwtToken = (user: { _id: any; }) => {
+    return jwt.sign({ id: user._id }, key);
 }

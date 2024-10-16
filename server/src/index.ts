@@ -7,6 +7,7 @@ import cors from "cors";
 import path from "path"
 import { fileURLToPath } from 'url';
 import config from './config/config.js';
+
 const port = config.PORT || 5000;
 const app = express()
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +24,6 @@ app.use('/uploads', express.static(path.join(__dirname, "./uploads")));
 
 // Database Call Here
 mongoDBConnect();
-
 app.use(graphqlUploadExpress())
 
 const graphQLServer = connectGraphQl();

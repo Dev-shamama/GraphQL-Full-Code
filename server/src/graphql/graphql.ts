@@ -1,12 +1,13 @@
 import { ApolloServer } from '@apollo/server';
 import { resolvers } from "./resolvers/resolvers.js";
 import { schema } from "./schema/schema.js";
-// Middleware to extract user from token
+import formatError from "../middleware/error.js"
 
 const connectGraphQl = () => {
     const server = new ApolloServer({
         typeDefs: schema,
         resolvers: resolvers,
+        // formatError,
     });
     return server
 }
